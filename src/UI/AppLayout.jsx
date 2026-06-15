@@ -8,19 +8,21 @@ function AppLayout() {
   const isLoading = navigation.state === "loading";
 
   return (
-    <div className="layout">
+    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       {isLoading && <Loader />}
 
       <Header />
 
-      <main>
-        {/* <p>
+      <div className="overflow-scroll">
+        <main className="mx-auto max-w-3xl">
+          {/* <p>
           Welcome to Fast Pizza Co.! We offer a variety of delicious pizzas that
           you can order online. Browse our menu, add your favorite pizzas to the
           cart, and place your order in just a few clicks!
         </p> */}
-        <Outlet />
-      </main>
+          <Outlet />
+        </main>
+      </div>
 
       <CartOverview />
     </div>
