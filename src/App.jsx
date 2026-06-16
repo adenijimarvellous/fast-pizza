@@ -14,6 +14,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <Error />,
     HydrateFallback: () => <Loader />,
 
     children: [
@@ -25,7 +26,6 @@ const router = createBrowserRouter([
         path: "/menu",
         element: <Menu />,
         loader: menuLoader,
-        errorElement: <Error />,
       },
       {
         path: "/cart",
@@ -40,7 +40,6 @@ const router = createBrowserRouter([
         path: "/order/:orderID",
         element: <Order />,
         loader: orderLoader,
-        errorElement: <Error />,
       },
     ],
   },
