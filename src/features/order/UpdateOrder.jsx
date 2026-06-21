@@ -6,7 +6,7 @@ export default function UpdateOrder() {
   const fetcher = useFetcher();
 
   return (
-    <fetcher.Form method="PATCH" className="text-right">
+    <fetcher.Form method="PATCH" className="flex justify-end">
       <Button type="primary">Make Priority</Button>
     </fetcher.Form>
   );

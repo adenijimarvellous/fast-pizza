@@ -6,7 +6,7 @@ function Menu() {
   const menu = useLoaderData();
 
   return (
-    <ul>
+    <ul className="grid gap-5 md:grid-cols-2">
       {menu.map((pizza) => (
         <MenuItem pizza={pizza} key={pizza.id} />
       ))}

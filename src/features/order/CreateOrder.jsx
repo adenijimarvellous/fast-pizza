@@ -42,12 +42,22 @@ function CreateOrder() {
   }
 
   return (
-    <div className="px-4 py-6">
-      <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
+    <div className="mx-auto max-w-4xl">
+      <div className="mb-6">
+        <p className="text-sm font-bold tracking-[0.18em] text-amber-600 uppercase">
+          Delivery details
+        </p>
+        <h2 className="mt-2 text-3xl font-extrabold text-stone-950">
+          Ready to order? Let's go!
+        </h2>
+      </div>
 
-      <Form method="POST">
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label className="sm:basis-40">First Name</label>
+      <Form
+        method="POST"
+        className="rounded-3xl border border-stone-200 bg-white p-5 shadow-xl shadow-stone-200/70 sm:p-8"
+      >
+        <div className="mb-5 grid gap-2 sm:grid-cols-[11rem_1fr] sm:items-center">
+          <label className="text-sm font-bold text-stone-700">First Name</label>
           <input
             type="text"
             name="customer"
@@ -57,66 +67,79 @@ function CreateOrder() {
           />
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label className="sm:basis-40">Phone number</label>
-          <div className="grow">
+        <div className="mb-5 grid gap-2 sm:grid-cols-[11rem_1fr] sm:items-start">
+          <label className="pt-3 text-sm font-bold text-stone-700">
+            Phone number
+          </label>
+          <div>
             <input type="tel" name="phone" required className="input w-full" />
+            {formErrors?.phone && (
+              <p className="mt-2 rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
+                {formErrors.phone}
+              </p>
+            )}
           </div>
-          {formErrors?.phone && (
-            <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-600">
-              {formErrors.phone}
-            </p>
-          )}
         </div>
 
-        <div className="relative mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label className="sm:basis-40">Address</label>
-          <div className="grow">
-            <input
-              key={address}
-              type="text"
-              name="address"
-              required
-              disabled={isLoadingAddress}
-              defaultValue={address}
-              className="input w-full"
-            />
+        <div className="mb-5 grid gap-2 sm:grid-cols-[11rem_1fr] sm:items-start">
+          <label className="pt-3 text-sm font-bold text-stone-700">
+            Address
+          </label>
+          <div>
+            <div className="relative">
+              <input
+                key={address}
+                type="text"
+                name="address"
+                required
+                disabled={isLoadingAddress}
+                defaultValue={address}
+                className="input w-full"
+              />
+
+              {!position.latitude && !position.longitude && (
+                <span className="mt-3 flex sm:absolute sm:top-1.5 sm:right-1.5 sm:mt-0">
+                  <Button
+                    type="small"
+                    disabled={isLoadingAddress}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      dispatch(fetchAddress());
+                    }}
+                  >
+                    Get Position
+                  </Button>
+                </span>
+              )}
+            </div>
             {addressStatus === "error" && (
-              <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-600">
+              <p className="mt-2 rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
                 {errorAddress}
               </p>
             )}
           </div>
-
-          {!position.latitude && !position.longitude && (
-            <span className="absolute top-[3px] right-[3px] z-50 md:right-[5px]">
-              <Button
-                type="small"
-                disabled={isLoadingAddress}
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(fetchAddress());
-                }}
-              >
-                Get Position
-              </Button>
-            </span>
-          )}
         </div>
 
-        <div className="mb-10 flex items-center gap-5">
-          <input
-            className="h-6 w-6 accent-yellow-400 focus:ring-offset-2 focus:outline-none"
-            type="checkbox"
-            name="priority"
-            id="priority"
-            value={withPriority}
-            onChange={(e) => setWithPriority(e.target.checked)}
-          />
-          <label htmlFor="priority">Want to give your order priority?</label>
+        <div className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-4">
+          <div className="flex items-center gap-4">
+            <input
+              className="h-5 w-5 rounded border-stone-300 accent-amber-400 focus:ring-4 focus:ring-amber-200 focus:ring-offset-2 focus:outline-none"
+              type="checkbox"
+              name="priority"
+              id="priority"
+              value={withPriority}
+              onChange={(e) => setWithPriority(e.target.checked)}
+            />
+            <label
+              htmlFor="priority"
+              className="text-sm font-bold text-stone-800"
+            >
+              Want to give your order priority?
+            </label>
+          </div>
         </div>
 
-        <div>
+        <div className="flex flex-wrap items-center gap-3">
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
 
           <input
